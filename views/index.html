@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="icon" href="img/graphql-logo-24.png">
+    <title>Pattern Finder</title>
+  </head>
+  <body oncontextmenu="return false">
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="logo">
+                <br><br>
+                <img src="img/graphql-logo-240.png" alt="logo" id="logo">
+                <div class="text header-text">
+                    <span class="name">Pattern Finder</span>
+                </div>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="search-box">
+                    <i class='bx bx-search icon' ></i>
+                    <input type="search" placeholder="Search..." id="searchId">
+                </li>
+                <li class="hpositive">
+                    <i class='bx bx-bar-chart-alt icon' ></i>
+                    <a href="#" class="nav-text" id="Pattern" onclick="get_Prompt(this.id)">Pattern</a>
+                </li>
+                <li class="hpositive">
+                    <i class='bx bx-pie-chart-alt icon' ></i>
+                    <a href="#" class="nav-text" id="Probability" onclick="get_Prompt(this.id)">Probability</a>
+                </li>
+                <li class="hpositive">
+                    <i class='bx bx-news icon' ></i>
+                    <a href="#" class="nav-text" id="News" onclick="get_Prompt(this.id)">News</a>
+                </li>
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon' ></i>
+                        <i class='bx bx-sun icon sun' ></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <i class='bx bx-menu' id="sidebarCollapse"></i>
+                </div>
+            </nav>
+            <canvas id="canvas"></canvas>
+
+            <div class="embed-responsive embed-responsive-21by9" id="news_prompt">
+                <div>
+                    <span id="purchase_span"></span>
+                    <a href="#" id="purchase_a"></a>
+                </div>
+                <iframe class="embed-responsive-item" src="#" style="float:left" id="iframe_news"></iframe>
+                <div id="screenshot_div" style="float:left">
+                    <nav id="screen_links">
+                        <div id="screen_list_header">
+                            <input type="search" placeholder="Search..." id="search_image">
+                        </div>
+                        <ul id="myList">
+                            
+            
+                        </ul>
+                    </nav>
+                </div>
+                <footer id="media_source">Source: </footer>
+            </div>
+
+            <table class="table table-dark" id="pike_mode_table">
+                <thead class="zero_border">
+                  <tr class="zero_border">
+                    <th scope="col" colspan="4" class="zero_border">
+                        <div class="slider">
+                        <input type="range" min="0" max="100" value="0" id="fader" 
+                        step="20" list="results" oninput="slider_change(this.value)">
+                        <datalist id="results">
+
+                        </datalist>
+                        </div>
+                    </th>
+
+                  </tr>
+                </thead>
+                <tbody class="zero_border">
+                  <tr class="zero_border">
+                    <th scope="col" colspan="4" class="zero_border">
+                        <button onclick="pikemodeon()" id="pikemode" style="float:left" class="zero_border">Pike Mode: Off</button>
+                        <input type="number" name="min_pike" id="min_pike" placeholder="Sensity (%)" oninput="pike_sensity()" style="float:left" class="zero_border">
+                        <button onclick="search_button()" id="start_search" style="float:left" class="zero_border">Search</button>
+                        <button onclick="share_screenshot()" id="share_screenshot" style="float:left" class="zero_border">Share</button>
+                        <button onclick="clear_chart()" id="clear_chart" style="float:left" class="zero_border">Clear</button>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <table class="table table-dark" id="probability_table">
+                <thead class="zero_border">
+                  <tr class="zero_border">
+                    <th scope="col" colspan="4" class="zero_border">
+                        <div class="slidecontainer">
+                            <input type="range" min="1" max="100" value="50" class="slider_probability" id="myRange">
+                        </div>
+                    </th>
+
+                  </tr>
+                </thead>
+                <tbody class="zero_border">
+                  <tr class="zero_border">
+                    <th scope="col" colspan="4" class="zero_border" id="probability_header">
+                        <button onclick="start_probability()" id="start_probability" style="float:left" class="zero_border">Start</button>
+                        <input type="number" name="how_many_days" id="how_many_days" placeholder="days:" oninput="max_day()" style="float:left" class="zero_border">
+                        <button onclick="end_probability()" id="end_probability" style="float:left" class="zero_border">End</button>
+                        <button onclick="share_screenshot()" id="share_screenshot" style="float:left" class="zero_border">Share</button>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-xl">
+                    
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <input type="text" class="modal-title" id="modal_title" style="border: none; width: 400px;">Schreenshot</input>
+                            </div>
+                            <div class="modal-body">
+                                <img src="" alt="not-found" id="modal_img_id" style="width:100%">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                </div>
+        </div>
+    </div>
+</div>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- Optional JavaScript; choose one of the two! -->
+    <script src="js/draw_functions.js"></script>
+    <script src="js/screenshot_js.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/pike_mode.js"></script>
+    <script src="js/prompts.js"></script>
+    <script src="js/probability.js"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+  </body>
+</html>
+  </nav>
