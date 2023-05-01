@@ -6,9 +6,9 @@ function get_screenshots(){
 }
 function share_screenshot(){
     canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
+        const url = canvas.toDataURL("image/jpeg", 0.4);
         //document.getElementById('test_image').src = url;
-        const url2 = url+"<no_nickname_yet>";
+        const url2 = url.split('data:image/jpeg;base64,')[1]+"<no_nickname_yet>";
         let body_ = {url2}
 
         const option = {
@@ -18,8 +18,7 @@ function share_screenshot(){
             },
             body: JSON.stringify(body_)
         }
-        fetch('http://localhost:3000/post_shot', option).then(response => response.json())
-        .then(data => create_enumeration(data));
+        fetch('http://localhost:3000/post_shot', option).then(response => response.json());
 
         let myModal = new bootstrap.Modal(document.getElementById('myModal'), {});
         current_link = url;
@@ -27,6 +26,15 @@ function share_screenshot(){
         document.getElementById('modal_title').value="You successfully posted: "+get_hash(url);
         my_screenshots.push(get_hash(url));
         myModal.show();
+        document.getElementById('myModal').className = 'modal show';
+
+        let allScreen = get_hash(url)+'#';
+        console.log(getCookie('screenshots'));
+        let cookie_screens = getCookie('screenshots').split('#');
+        cookie_screens.forEach((shot) => {
+            allScreen += shot+'#';
+        });
+        document.cookie = "screenshots="+allScreen+"; path=http://localhost:3000/news.html";
       });
 }
 function create_enumeration(links){
@@ -56,7 +64,7 @@ function create_enumeration(links){
         }
 
         let li = document.createElement("li");
-        let list_i = document.createElement("i");
+        let list_i = document.createElement("span");
         list_i.style.float = 'left';
         let list_i_icon = document.createElement("i");
         list_i_icon.style.float = 'right'; // ne mindenhol legyen ikon csak a sajátnál
@@ -76,7 +84,7 @@ function create_enumeration(links){
         
         list_i.onclick = function(){
             current_link = link;
-            document.getElementById('modal_img_id').src=link;
+            document.getElementById('modal_img_id').src='data:image/jpeg;base64,'+link;
             if(name_of_link == link){
                 document.getElementById('modal_title').value="Screenshot: "+get_hash(name_of_link);
             }
@@ -120,7 +128,12 @@ function is_it_my_screenshot(item){
     return false;
 }
 function get_hash(text){
- return (text[text.length-5]+text[text.length-4]+text[text.length-3]+text[text.length-2]+text[text.length-1]);
+    let hash = '';
+    for(let i = text.length-8; i < text.length; i++){
+        hash+=text[i];
+    }
+    let hash2 = hash.replaceAll('/', '$');
+    return hash2;
 }
 function search_among_screenshots(ele) {
     if(ele.key === 'Enter') {
@@ -129,7 +142,7 @@ function search_among_screenshots(ele) {
         let found = false;
         for(let i = 0; i < list.childElementCount; i++){
             if(list.children[i].innerHTML.split('Screenshot: ')[1].split('<')[0].includes(document.getElementById("search_image").value)){
-                list.children[i].getElementsByTagName('i')[0].onclick.apply(list.children[i]);
+                list.children[i].getElementsByTagName('span')[0].onclick.apply(list.children[i]);
                 found = true;
             }
         }
@@ -139,8 +152,10 @@ function search_among_screenshots(ele) {
     }
 }
 document.addEventListener('DOMContentLoaded', function(){
+    get_my_screenshots();
     document.getElementById('modal_title').onkeyup = function(key){
         if(key.code == "Enter" && is_it_my_screenshot(current_link)){
+            console.log('ghghghghghghghgh')
             let modal_title = document.getElementById('modal_title');
             let nickname = modal_title.value;
     
@@ -159,8 +174,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 },
                 body: JSON.stringify(body_)
             }
-    
-            fetch('http://localhost:3000/patch_shot/'+get_hash(current_link), option).then(x => get_screenshots());
+            fetch('http://localhost:3000/patch_shot/'+get_hash(current_link), option);
         }
     }
     document.getElementById('modal_title').onclick = function(){
@@ -175,4 +189,23 @@ document.addEventListener('DOMContentLoaded', function(){
             modal_title.value = modal_title.value.split("You successfully posted: ")[1];
         }
     }
-})
+});
+function get_my_screenshots(){
+    my_screenshots = getCookie('screenshots').split('#');
+    console.log(my_screenshots);
+}
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }

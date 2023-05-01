@@ -16,8 +16,17 @@ app.use('/js', express.static(__dirname + 'public/js'))
 app.use('/img', express.static(__dirname + 'public/img'))
 
 app.get('', (req, res) =>{
-    res.sendFile(__dirname + '/views/index.html')
-})
+    res.sendFile(__dirname + '/views/pattern.html');
+});
+app.get('/pattern.html', (req, res) =>{
+    res.sendFile(__dirname + '/views/pattern.html');
+});
+app.get('/probability.html', (req, res) =>{
+    res.sendFile(__dirname + '/views/probability.html');
+});
+app.get('/news.html', (req, res) =>{
+    res.sendFile(__dirname + '/views/news.html');
+});
 
 //get
 app.get('/name/:id', (request, response) =>{
@@ -34,7 +43,7 @@ app.get('/news/:id', (request, response) =>{
     result.then(data => response.json({data: data[0].link}))
     .catch(err => console.log(err));
 })
-app.get('/purchse/:id', (request, response) =>{
+app.get('/purchase/:id', (request, response) =>{
     const db = dbService.getDbServiceInstance();
 
     const result = db.getAllData("SELECT purchase_link FROM purchase, news, coinnames WHERE purchase.newsId = news.id AND news.id = coinnames.nameId and coinnames.name = '"+request.params.id+"';");
@@ -65,10 +74,17 @@ app.get('/get_shots', (request, response) =>{
 })
 app.patch('/patch_shot/:id', (request, response) =>{
     let scrn = "{ \"schreenshot\": \"";
+    let number_needed_to_replace = request.params.id.split('$').length-1;
+    let replaced_param_id = request.params.id;
+    for(let i = 0; i < number_needed_to_replace; i++){
+        replaced_param_id = replaced_param_id.replace('$', '/');
+    }
+
     fs.readFile('screenshots.json', 'utf-8', function(err, result){
         let urls = JSON.parse(result)["schreenshot"].split(';');
+
         for(let i = 0; i < urls.length-1; i++){
-            if(!urls[i].includes(request.params.id)){
+            if(!urls[i].includes(replaced_param_id)){
                 scrn+=urls[i]+';';
             }
             else{
@@ -88,10 +104,15 @@ app.patch('/patch_shot/:id', (request, response) =>{
 })
 app.delete('/delete_shot/:id', (request, response) =>{
     let scrn = "{ \"schreenshot\": \"";
+    let number_needed_to_replace = request.params.id.split('$').length-1;
+    let replaced_param_id = request.params.id;
+    for(let i = 0; i < number_needed_to_replace; i++){
+        replaced_param_id = replaced_param_id.replace('$', '/');
+    }
     fs.readFile('screenshots.json', 'utf-8', function(err, result){
         let urls = JSON.parse(result)["schreenshot"].split(';');
         for(let i = 0; i < urls.length-1; i++){
-            if(!urls[i].includes(request.params.id)){
+            if(!urls[i].includes(replaced_param_id)){
                 scrn+=urls[i]+';';
             }
         }

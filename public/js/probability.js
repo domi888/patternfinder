@@ -1,3 +1,6 @@
+document.getElementById("searchId").value = 'BTC'
+document.getElementById("how_many_days").value = 365;
+
 let value_range = 0;
 let range_array = [];
 let sum_array = [];
@@ -6,6 +9,7 @@ let height_ratio = (canvas.height - 50) / 11;
 var step = 0;
 var range_array_index = 0;
 let my_time_out = parseInt(document.getElementById("myRange").value);
+
 
 let is_it_going = false;
 let fontSizeOnProbability = "14px Arial";
@@ -26,6 +30,7 @@ function start_probability(){
 }
 function end_probability(){
     is_it_going = false;
+    set_back_init();
     document.getElementById("start_probability").disabled = false;
     document.getElementById("end_probability").disabled = true;
 }
@@ -87,7 +92,7 @@ function animationLoop(start_date, end_date){
         }
 
         step+=25;
-        if(global_prompt == "Probability" && is_it_going && range_array_index < range_array.length-1){
+        if(is_it_going && range_array_index < range_array.length-1){
             if (step < canvas.height-y_scale) {
                 animationLoop(start_date, end_date);
             }
@@ -101,10 +106,6 @@ function animationLoop(start_date, end_date){
                 }
             }
         }
-        else{
-            set_back_init();
-            console.log("Ki")
-        }
 
         //set the sped of blocks
         if(document.getElementById("myRange").value == 100){
@@ -116,15 +117,8 @@ function animationLoop(start_date, end_date){
       }, my_time_out)
 }
 function set_back_init(){
-    if(global_prompt == "Pattern"){
-        graph_refresh();
-    }
-    else{
-        if(range_array_index != range_array.length-1){
-            context.clearRect(0,0,canvas.width,canvas.height);
-            draw_border();
-        }
-    }
+    context.clearRect(0,0,canvas.width,canvas.height);
+    draw_border();
 
     step = 0;
     range_array_index = 0;
