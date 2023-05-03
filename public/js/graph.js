@@ -214,9 +214,16 @@ let graph_refresh = function(cursorX){
 }
 //mouse down function
 let mouse_down = function(event){
+    let clientX = event.clientX;
+    let clientY = event.clientY;
+    if(typeof event.changedTouches !== 'undefined'){
+        clientX = event.changedTouches[0].clientX;
+        clientY = event.changedTouches[0].clientY;
+    }
     event.preventDefault();
-    mouse_clickX = event.clientX - offset_x + toggle_on_plus_x;
-    mouse_clickY = event.clientY - offset_y;
+    mouse_clickX = clientX - offset_x + toggle_on_plus_x;
+    mouse_clickY = clientY - offset_y;
+    console.log('aaaaaa')
     
     is_in_interval_point = is_click_in_interval_point(mouse_clickX, mouse_clickY);
     if(!is_in_interval_point && !is_click_in_circle(mouse_clickX, mouse_clickY)){
@@ -258,11 +265,17 @@ let mouse_up = function(event){
 
 //mouse move function
 let mouse_move = function(event){
+    let clientX = event.clientX;
+    let clientY = event.clientY;
+    if(typeof event.changedTouches !== 'undefined'){
+        clientX = event.changedTouches[0].clientX;
+        clientY = event.changedTouches[0].clientY;
+    }
     event.preventDefault();
         if(!isDragging){
             is_cursor_on_canvas = true;
-            constant_cursor_x = parseInt(event.clientX - offset_x) + toggle_on_plus_x;
-            constant_cursor_y = parseInt(event.clientY - offset_y);
+            constant_cursor_x = parseInt(clientX - offset_x) + toggle_on_plus_x;
+            constant_cursor_y = parseInt(clientY - offset_y);
     
             let mouseX = constant_cursor_x;
             let mouseY = constant_cursor_y;
@@ -276,7 +289,6 @@ let mouse_move = function(event){
             else if(!is_click_in_interval_point(constant_cursor_x, constant_cursor_y)){
                 current_interval_point_click = [];
             }
-    
             
             cursor_X = constant_cursor_x
             cursor_Y = constant_cursor_y;
@@ -287,7 +299,7 @@ let mouse_move = function(event){
         }
         else if(isShiftDown){
             draw_points();
-            draw_frame(mouse_clickX, mouse_clickY, parseInt(event.clientX - offset_x), parseInt(event.clientY - offset_y));
+            draw_frame(mouse_clickX, mouse_clickY, parseInt(clientX - offset_x), parseInt(clientY - offset_y));
         }
         else{
             is_cursor_on_canvas = false;
@@ -295,9 +307,10 @@ let mouse_move = function(event){
             constant_cursor_y = 0;
             //error might occur here in the future
         
-            let mouseX = parseInt(event.clientX - offset_x);
+            let mouseX = parseInt(clientX - offset_x);
             let dx = mouseX - mouse_clickX;
             grid_x+=dx;
+            console.log(dx)
             
             for(let shape of shapes){
                 shape.x += dx;
@@ -306,7 +319,7 @@ let mouse_move = function(event){
             canvas_scroll_value = 0;
             mouse_clickX = mouseX;
             graph_points_height();
-            graph_refresh(parseInt(event.clientX - offset_x) + toggle_on_plus_x);
+            graph_refresh(parseInt(clientX - offset_x) + toggle_on_plus_x);
         }
         //console.log(event);
 }
@@ -345,6 +358,12 @@ this.canvas.addEventListener('mousewheel',function(event){
 canvas.onmousedown = mouse_down;
 canvas.onmouseup = mouse_up;
 canvas.onmousemove = mouse_move;
+
+canvas.ontouchstart = mouse_down;
+canvas.ontouchend = mouse_up;
+canvas.ontouchmove = mouse_move;
+//canvas.ontouchmove = mouse_move;
+
 
 
 let start = function(){

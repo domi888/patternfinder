@@ -152,6 +152,7 @@ iframe, #news_prompt, .row-fill{
 }
 #myList{
     list-style-type: none;
+    color:grey;
 }
 #screen_links{
     background-color: #0000000d;
@@ -182,6 +183,9 @@ iframe, #news_prompt, .row-fill{
     --dropdown_menu_bg_color: rgba(253, 193, 74, 0.9);
     --dropdown_menu_li_bg_color:rgba(253, 193, 74, 0.9);
     --dropdown_menu_li_hover_bg_color:rgba(235, 173, 51, 0.9);
+    
+    --moon_opacity: 0;
+    --sun_opacity: 1;
 }
 body.dark{
     --toggle_switch_left: 25px;
@@ -195,6 +199,9 @@ body.dark{
     --toggle_switch_color: #1e4072;
     --toggle_switch_switch_color: #0d6efd;
     --toggle_switch_before_color: #15396ea6;
+
+    --moon_opacity: 1;
+    --sun_opacity: 0;
 
     transition: 0.3s;
 }
@@ -214,10 +221,18 @@ body.dark{
   }
   .mode i{
     position: absolute;
+    left: -29px;
+    top: 11px;
+    font-size: 30px;
   }
   
   .mode i.sun{
-    opacity: 0;
+    opacity: var(--sun_opacity);
+    z-index: 5;
+  }
+  .mode i.moon{
+    opacity: var(--moon_opacity);
+    z-index: 5;
   }
   .mode .toggle-switch{
     right: 0;
@@ -226,7 +241,7 @@ body.dark{
     align-items: center;
     justify-content: center;
     height: 100%;
-    min-width: 60px;
+    min-width: 90px;
     cursor: pointer;
     border-radius: 6px;
     background: var(--toggle_switch_color);
@@ -238,6 +253,7 @@ body.dark{
     height: 22px;
     width: 44px;
     background: var(--toggle_switch_switch_color);
+    left: 14px;
   }
   
   .switch::before{
