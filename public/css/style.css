@@ -162,7 +162,7 @@ iframe, #news_prompt, .row-fill{
 #search_image{
     height: 45px;
 }
-#min_pike{
+#min_pike, #how_many_days, #search_image{
     background-color: var(--search_bg_color);
     border: 1px solid grey;
     transition: 0.3s;
