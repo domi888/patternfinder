@@ -1,6 +1,7 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: #00000014;
+    background: var(--body_bg_color);
+    transition: 0.3s;
 }
 
 #canvas-wrapper {
@@ -18,13 +19,15 @@ td{
     font-weight: 600;
     font-size: 15px;
     border: 1px solid #c1c1c1;
-    background-color: rgb(243 213 136);
-    color: rgb(141 138 138);
+    background-color: var(--mode_button_bg_color);
+    color: var(--mode_button_color);
     min-height: 40px;
+    transition: 0.3s;
 }
 nav{
-    background-color: rgb(255 204 102 / 70%); 
+    background-color: var(--nav_bg_color);
     border-bottom: 1px solid black;
+    transition: 0.3s;
 }
 .nav_link_a{
     font-size: 18px;
@@ -46,10 +49,11 @@ nav{
     padding-left: 20px;
 }
 #searchId{
-    background: rgb(255 204 102 / 70%);
+    background: var(--search_bg_color);
     border: 1px solid grey;
     color: grey;
     height: 30px;
+    transition: 0.3s;
 }
 div.modal-dialog.modal-xl{
     width: 60%;
@@ -73,13 +77,11 @@ div.modal-dialog.modal-xl{
     color: gray;
 }
 .active{
-    background-color: rgba(253, 191, 67, 0.7);
+    background-color: var(--active_bg_color);
+    transition: 0.3s;
 }
 .navbar-brand img{
     width: 80px;
-}
-.nav_link_a i{
-    
 }
 .dropdown-menu.show{
     position: absolute;
@@ -90,15 +92,17 @@ div.modal-dialog.modal-xl{
     font-size: 20px;
 }
 .dropdown-menu{
-    background-color: rgba(253, 193, 74, 0.9);
+    background-color: var(--dropdown_menu_bg_color);
+    transition: 0.3s;
 }
 .dropdown-menu-li{
     font-size: 18px;
-    background-color: rgba(253, 193, 74, 0.9);
+    background-color: var(--dropdown_menu_li_bg_color);
     border-bottom: 1px solid rgba(190, 142, 45, 0.9);
+    transition: 0.3s;
 }
 .dropdown-menu-li:hover{
-    background-color: rgba(235, 173, 51, 0.9);
+    background-color: var(--dropdown_menu_li_hover_bg_color);
 }
 .bx{
     font-size: 22px;
@@ -158,3 +162,93 @@ iframe, #news_prompt, .row-fill{
 #search_image{
     height: 45px;
 }
+#min_pike{
+    background-color: var(--search_bg_color);
+    border: 1px solid grey;
+    transition: 0.3s;
+}
+:root{
+    --body_bg_color:#00000014;
+    --toggle_switch_color: rgba(250, 180, 40, 0.7);
+    --toggle_switch_switch_color: rgb(250, 226, 174);
+    --toggle_switch_before_color: rgb(255, 255, 255);
+    --toggle_switch_left: 5px;
+
+    --mode_button_bg_color: rgb(243 213 136);
+    --mode_button_color: rgb(141 138 138);
+    --nav_bg_color: rgb(255 204 102 / 70%); 
+    --search_bg_color: rgb(255 204 102 / 70%);
+    --active_bg_color: rgba(253, 191, 67, 0.7);
+    --dropdown_menu_bg_color: rgba(253, 193, 74, 0.9);
+    --dropdown_menu_li_bg_color:rgba(253, 193, 74, 0.9);
+    --dropdown_menu_li_hover_bg_color:rgba(235, 173, 51, 0.9);
+}
+body.dark{
+    --toggle_switch_left: 25px;
+    --body_bg_color:#000000c9;
+    --mode_button_bg_color:rgb(16 60 91);
+    --nav_bg_color:#33507acc;
+    --dropdown_menu_bg_color: #1f3658cc;
+    --dropdown_menu_li_bg_color:#31558bcc;
+    --dropdown_menu_li_hover_bg_color:#1f3658cc;
+    --search_bg_color: #335fa0;
+    --toggle_switch_color: #1e4072;
+    --toggle_switch_switch_color: #0d6efd;
+    --toggle_switch_before_color: #15396ea6;
+
+    transition: 0.3s;
+}
+.mode{
+    position: relative;
+    border-radius: 6px;
+    width: 60px;
+    left: 10%;
+    transition: 0.3s;
+  }
+  
+  .mode .moon-sun{
+    height: 50px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+  }
+  .mode i{
+    position: absolute;
+  }
+  
+  .mode i.sun{
+    opacity: 0;
+  }
+  .mode .toggle-switch{
+    right: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-width: 60px;
+    cursor: pointer;
+    border-radius: 6px;
+    background: var(--toggle_switch_color);
+  }
+  
+  .toggle-switch .switch{
+    border-radius: 25px;
+    position: relative;
+    height: 22px;
+    width: 44px;
+    background: var(--toggle_switch_switch_color);
+  }
+  
+  .switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: var(--toggle_switch_left);
+    transform: translateY(-50%);
+    background: var(--toggle_switch_before_color);
+    transition: 0.3s;
+  }

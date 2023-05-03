@@ -7,6 +7,7 @@ canvas.height = canvasWrapperRect.width*0.43;
 
 const bodymain = document.querySelector("body");
 const searchBtn = bodymain.querySelector(".search-box");
+const modeSwitch = document.body.querySelector(".toggle-switch");
 
 let offset_x;
 let offset_y;
@@ -118,3 +119,7 @@ function rawData(data){
         pikemodeclear();
     }
 }
+
+modeSwitch.addEventListener("click", () =>{
+    body.classList.toggle("dark");
+});
