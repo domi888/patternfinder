@@ -5,37 +5,34 @@ function get_screenshots(){
         .then(data => create_enumeration(data));
 }
 function share_screenshot(){
-    canvas.toBlob((blob) => {
-        const url = canvas.toDataURL("image/jpeg", 0.4);
-        //document.getElementById('test_image').src = url;
-        const url2 = url.split('data:image/jpeg;base64,')[1]+"<no_nickname_yet>";
-        let body_ = {url2}
+    const url = canvas.toDataURL("image/jpeg", 0.4);
+    //document.getElementById('test_image').src = url;
+    const url2 = url.split('data:image/jpeg;base64,')[1]+"<no_nickname_yet>";
+    let body_ = {url2}
 
-        const option = {
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body_)
-        }
-        fetch('http://localhost:3000/post_shot', option).then(response => response.json());
+    const option = {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body_)
+    }
+    fetch('http://localhost:3000/post_shot', option).then(response => response.json());
 
-        let myModal = new bootstrap.Modal(document.getElementById('myModal'), {});
-        current_link = url;
-        document.getElementById('modal_img_id').src=url;
-        document.getElementById('modal_title').value="You successfully posted: "+get_hash(url);
-        my_screenshots.push(get_hash(url));
-        myModal.show();
-        document.getElementById('myModal').className = 'modal show';
+    let myModal = new bootstrap.Modal(document.getElementById('myModal'), {});
+    current_link = url;
+    document.getElementById('modal_img_id').src=url;
+    document.getElementById('modal_title').value="You successfully posted: "+get_hash(url);
+    my_screenshots.push(get_hash(url));
+    myModal.show();
+    document.getElementById('myModal').className = 'modal show';
 
-        let allScreen = get_hash(url)+'#';
-        console.log(getCookie('screenshots'));
-        let cookie_screens = getCookie('screenshots').split('#');
-        cookie_screens.forEach((shot) => {
-            allScreen += shot+'#';
-        });
-        document.cookie = "screenshots="+allScreen+"; path=http://localhost:3000/news.html";
-      });
+    let allScreen = get_hash(url)+'#';
+    let cookie_screens = getCookie('screenshots').split('#');
+    cookie_screens.forEach((shot) => {
+        allScreen += shot+'#';
+    });
+    document.cookie = "screenshots="+allScreen+"; path=http://localhost:3000/news.html";
 }
 function create_enumeration(links){
     let images = links["schreenshot"].split(';');
@@ -155,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function(){
     get_my_screenshots();
     document.getElementById('modal_title').onkeyup = function(key){
         if(key.code == "Enter" && is_it_my_screenshot(current_link)){
-            console.log('ghghghghghghghgh')
             let modal_title = document.getElementById('modal_title');
             let nickname = modal_title.value;
     
@@ -174,7 +170,14 @@ document.addEventListener('DOMContentLoaded', function(){
                 },
                 body: JSON.stringify(body_)
             }
-            fetch('http://localhost:3000/patch_shot/'+get_hash(current_link), option);
+            if(document.URL.split('//')[1].split('/')[1].split('.')[0] === 'news'){
+                fetch('http://localhost:3000/patch_shot/'+get_hash(current_link), option).then(() => {
+                    get_screenshots();
+                });
+            }
+            else{
+                fetch('http://localhost:3000/patch_shot/'+get_hash(current_link), option);
+            }
         }
     }
     document.getElementById('modal_title').onclick = function(){
@@ -208,4 +211,4 @@ function getCookie(cname) {
       }
     }
     return "";
-  }
+}

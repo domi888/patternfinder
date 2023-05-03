@@ -354,7 +354,6 @@ this.canvas.addEventListener('mousewheel',function(event){
     }
 }, false);
 
-//canvas.onkeydown = ;//mouse_down;
 canvas.onmousedown = mouse_down;
 canvas.onmouseup = mouse_up;
 canvas.onmousemove = mouse_move;
@@ -362,7 +361,6 @@ canvas.onmousemove = mouse_move;
 canvas.ontouchstart = mouse_down;
 canvas.ontouchend = mouse_up;
 canvas.ontouchmove = mouse_move;
-//canvas.ontouchmove = mouse_move;
 
 
 
