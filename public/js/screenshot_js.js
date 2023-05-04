@@ -2,7 +2,8 @@ let my_screenshots = [];
 let current_link = '';
 function get_screenshots(){
     fetch('http://localhost:3000/get_shots').then(response => response.json())
-        .then(data => create_enumeration(data));
+        .then(data => create_enumeration(data))
+        .catch((error) => alert('Unknown error, please try again!: '+error));
 }
 function share_screenshot(){
     const url = canvas.toDataURL("image/jpeg", 0.4);
@@ -17,7 +18,7 @@ function share_screenshot(){
         },
         body: JSON.stringify(body_)
     }
-    fetch('http://localhost:3000/post_shot', option).then(response => response.json());
+    fetch('http://localhost:3000/post_shot', option).then(response => response.json()).catch((error) => alert('Unknown error, please try again!: '+error));
 
     let myModal = new bootstrap.Modal(document.getElementById('myModal'), {});
     current_link = url;
@@ -101,7 +102,8 @@ function create_enumeration(links){
                     }
                 }
                 fetch('http://localhost:3000/delete_shot/'+get_hash(link), option)
-                .then(response => delete_finished(response.status));
+                .then(response => delete_finished(response.status))
+                .catch((error) => alert('Unknown error, please try again!: '+error));
             }
             li.appendChild(list_i_icon);
         }
@@ -173,10 +175,12 @@ document.addEventListener('DOMContentLoaded', function(){
             if(document.URL.split('//')[1].split('/')[1].split('.')[0] === 'news'){
                 fetch('http://localhost:3000/patch_shot/'+get_hash(current_link), option).then(() => {
                     get_screenshots();
-                });
+                })
+                .catch((error) => alert('Unknown error, please try again!: '+error));
             }
             else{
-                fetch('http://localhost:3000/patch_shot/'+get_hash(current_link), option);
+                fetch('http://localhost:3000/patch_shot/'+get_hash(current_link), option)
+                .catch((error) => alert('Unknown error, please try again!: '+error));
             }
         }
     }

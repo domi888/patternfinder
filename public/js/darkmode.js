@@ -6,7 +6,7 @@ modeSwitch.addEventListener("click", () =>{
     document.cookie = "darkmode="+document.body.className+"; path=http://localhost:3000/*";
 });
 
-if(is_it_dark_on) modeSwitch.click();
+if(is_it_dark_on) document.body.classList.toggle("dark");
 
 function getCookie(cname) {
     let name = cname + "=";

@@ -10,7 +10,7 @@ searchBtn.addEventListener("keydown", function(event){
 });
 let fetchData = function(coin){
     fetch('http://localhost:3000/name/'+coin)
-    .then(response => response.json()).then(data => check_wheter_coin_existing(coin, data['data']));
+    .then(response => response.json()).then(data => check_wheter_coin_existing(coin, data['data'])).catch((error) => alert('Unknown error, please try again!: '+error));;
 }
 function check_wheter_coin_existing(coin, res){
     if(res.toLowerCase() != 'not_found'){
@@ -33,7 +33,7 @@ function search_image_on_press(event){
 }
 
 function fetch_source(){
-    fetch('http://localhost:3000/news/'+current_coin).then(response => response.json()).then(data => rewrite_source(data.data));
+    fetch('http://localhost:3000/news/'+current_coin).then(response => response.json()).then(data => rewrite_source(data.data)).catch((error) => alert('Unknown error, please try again!: '+error));;
 }
 function rewrite_source(link){
     //iframe_news
@@ -41,7 +41,7 @@ function rewrite_source(link){
     document.getElementById("iframe_news").src = link;
 }
 function fetch_purchase_link(){
-    fetch('http://localhost:3000/purchase/'+current_coin).then(response => response.json()).then(data => rewrite_purchase_link(data.data));
+    fetch('http://localhost:3000/purchase/'+current_coin).then(response => response.json()).then(data => rewrite_purchase_link(data.data)).catch((error) => alert('Unknown error, please try again!: '+error));;
 }
 function rewrite_purchase_link(link){
     //iframe_news

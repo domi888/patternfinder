@@ -77,16 +77,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
 let fetchData = function(coin){
     fetch('http://localhost:3000/name/'+coin)
-    .then(response => response.json()).then(data => check_wheter_coin_existing(coin, data['data']));
+    .then(response => response.json()).then(data => check_wheter_coin_existing(coin, data['data'])).catch((error) => alert('Unknown error, please try again!: '+error));;
 }
 function check_wheter_coin_existing(coin, res){
     if(res.toLowerCase() != 'not_found'){
         current_coin = document.getElementById("searchId").value;
         fetch('http://localhost:3000/coin/'+coin)
         .then(response => response.json())
-        .then(data => rawData(data['data']));
-        //fetch_source();
-        //fetch_purchase_link()
+        .then(data => rawData(data['data']))
+        .catch((error) => alert('Unknown error, please try again!: '+error));
     }
     else{
         alert("No coin found!");
