@@ -17,7 +17,6 @@ let fontSizeOnProbabilityCoin = "14px Arial";
 function start_probability(){
 
     scale = canvas.width/20;
-    console.log(Math.sqrt(canvas.width)/3.2);
     fontSizeOnProbability = (Math.sqrt(canvas.width)/3.2)+"px Arial";
     fontSizeOnProbabilityCoin = (Math.sqrt(canvas.width)/3)+"px Arial";
     is_it_going = true;
@@ -50,7 +49,6 @@ function initialize_probability(){
     for(let i = (shapes.length - parseInt(how_many_days)); i < shapes.length; i++){
         for(let j = 1; j <= 20; j++){
             if(shapes[i].value <= min_value + (value_range * j)){
-                //console.log(j)
                 range_array.push(j + ": " + i); //range + index
                 break;
             }
@@ -102,7 +100,6 @@ function animationLoop(start_date, end_date){
                     sum_array[(parseInt(range_array[range_array_index].split(':')[0])-1)] += 1
                     range_array_index++;
                     animationLoop(start_date, end_date);
-                    //console.log(range_array_index)
                 }
             }
         }

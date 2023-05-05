@@ -199,7 +199,6 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 function get_my_screenshots(){
     my_screenshots = getCookie('screenshots').split('#');
-    console.log(my_screenshots);
 }
 function getCookie(cname) {
     let name = cname + "=";

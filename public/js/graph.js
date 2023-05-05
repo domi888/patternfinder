@@ -173,7 +173,6 @@ let graph_initialization = function(){
         
         index++;
     }
-    //console.log(days_in_chart);
     graph_points_height();
     draw_points();
 }
@@ -223,7 +222,6 @@ let mouse_down = function(event){
     event.preventDefault();
     mouse_clickX = clientX - offset_x + toggle_on_plus_x;
     mouse_clickY = clientY - offset_y;
-    console.log('aaaaaa')
     
     is_in_interval_point = is_click_in_interval_point(mouse_clickX, mouse_clickY);
     if(!is_in_interval_point && !is_click_in_circle(mouse_clickX, mouse_clickY)){
@@ -284,7 +282,6 @@ let mouse_move = function(event){
                 let dy = mouseY - mouse_clickY;
                 selected_pikes_interval_points[current_interval_point_click.f].array[current_interval_point_click.s].value -= (dy * 1.0);
                 selected_pikes_interval_points[current_interval_point_click.f].array[current_interval_point_click.s].additional_y += dy;
-                //console.log(selected_pikes_interval_points[current_interval_point_click.f].array[current_interval_point_click.s].value)
             }
             else if(!is_click_in_interval_point(constant_cursor_x, constant_cursor_y)){
                 current_interval_point_click = [];
@@ -310,7 +307,6 @@ let mouse_move = function(event){
             let mouseX = parseInt(clientX - offset_x);
             let dx = mouseX - mouse_clickX;
             grid_x+=dx;
-            console.log(dx)
             
             for(let shape of shapes){
                 shape.x += dx;
@@ -321,14 +317,12 @@ let mouse_move = function(event){
             graph_points_height();
             graph_refresh(parseInt(clientX - offset_x) + toggle_on_plus_x);
         }
-        //console.log(event);
 }
 //---------------------------
 //mouse wheeling event
 this.canvas.addEventListener('mousewheel',function(event){
     event.preventDefault();
     chart_between();
-    //kell egy külön function
 
     let before_scroll = shapes[1].x - shapes[0].x;
     if(event.deltaY > 0){

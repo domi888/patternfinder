@@ -1,3 +1,15 @@
+class Shape{
+    constructor(x, y, r, color, value, date, pike = false){
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.color = color;
+        this.value = value;
+        this.date = date;
+        this.pike = pike;
+    }
+}
+
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext("2d", {willReadFrequently: true});
 
@@ -110,7 +122,7 @@ function rawData(data){
 
     shapes = [];
     for(let item of data){
-        shapes.push({x: canvas.width - (points_on_canvas*distance_b_t_p) - (distance_b_t_p * 1.30), y: (canvas.height-50), r: shape_r, color: "black", value: item.value, date: item.date, pike: false});
+        shapes.push(new Shape(canvas.width - (points_on_canvas*distance_b_t_p) - (distance_b_t_p * 1.30), (canvas.height-50), shape_r, "black", item.value, item.date, false));
     }
     if(document.getElementById('pikemode') !== null){
         start();

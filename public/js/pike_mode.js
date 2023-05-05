@@ -388,14 +388,7 @@ function startSearch(){
             
         }
     }
-    /*
-    for(let i = 0; i < finalPikes.length; i+=selected_pikes.length){
-        for(let j = i; j < (i + selected_pikes.length); j++){
-            console.log(finalPikes[j].date)
-        }
-        console.log('++++++++')
-    }
-    */
+
     //slider
     slider.style.display = 'block';
     var list = document.getElementById('results');
