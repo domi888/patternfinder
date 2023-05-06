@@ -318,9 +318,8 @@ let mouse_move = function(event){
             graph_refresh(parseInt(clientX - offset_x) + toggle_on_plus_x);
         }
 }
-//---------------------------
 //mouse wheeling event
-this.canvas.addEventListener('mousewheel',function(event){
+function wheel_on_canvas(event){
     event.preventDefault();
     chart_between();
 
@@ -346,6 +345,12 @@ this.canvas.addEventListener('mousewheel',function(event){
             pike.array[i].additional_y*=perc_;
         }
     }
+}
+this.canvas.addEventListener("wheel",function(event){
+    wheel_on_canvas(event);
+}, false);
+this.canvas.addEventListener('mousewheel',function(event){
+    wheel_on_canvas(event);
 }, false);
 
 canvas.onmousedown = mouse_down;
