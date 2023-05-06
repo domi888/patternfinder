@@ -349,9 +349,6 @@ function wheel_on_canvas(event){
 this.canvas.addEventListener("wheel",function(event){
     wheel_on_canvas(event);
 }, false);
-this.canvas.addEventListener('mousewheel',function(event){
-    wheel_on_canvas(event);
-}, false);
 
 canvas.onmousedown = mouse_down;
 canvas.onmouseup = mouse_up;
